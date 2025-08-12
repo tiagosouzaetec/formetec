@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+      body {
+        font-family: 'Inter', sans-serif;
+      }
+      .hidden-field {
+        display: none;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+    <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md">
+      <h1 class="text-2xl font-bold text-gray-800 mb-6 text-center">Formulário de Inscrição</h1>
+      <form id="contactForm" class="space-y-6">
+        
+        <!-- Seção: Verificação de CPF -->
+        <div id="section-cpf" class="space-y-4">
+          <h2 class="text-xl font-bold text-gray-700 mb-4">Verificação de CPF</h2>
+          
+          <div>
+            <label for="cpfInput" class="block text-gray-700 font-medium mb-2">CPF<span class="text-red-500">*</span></label>
+            <input
+              type="text"
+              id="cpfInput"
+              placeholder="000.000.000-00"
+              maxlength="14"
+              required
+              class="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+            />
+          </div>
+
+          <div>
+            <label for="dataNascimentoInput" class="block text-gray-700 font-medium mb-2">Data de Nascimento<span class="text-red-500">*</span></label>
+            <input
+              type="date"
+              id="dataNascimentoInput"
+              required
+              class="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+            />
+          </div>
+
+          <button
+            type="button"
+            id="nextButton"
+            class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 transition duration-200 shadow-md"
+          >
+            Próxima Seção
+          </button>
+        </div>
+
+        <!-- Seções do formulário principal (ocultas inicialmente) -->
+        <div id="sections-principal" class="hidden-field">
+
+          <!-- Seção: Dados Pessoais -->
+          <div class="border-b-2 border-gray-200 pb-4">
+            <h2 class="text-xl font-bold text-gray-700 mb-4">Dados Pessoais</h2>
+            <div class="space-y-4">
+              
+              <!-- Campo Nome -->
+              <div>
+                <label for="nomeInput" class="block text-gray-700 font-medium mb-2">Nome<span class="text-red-500">*</span></label>
+                <input
+                  type="text"
+                  id="nomeInput"
+                  placeholder="Seu nome completo"
+                  required
+                  class="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+                />
+              </div>
+              
+              <!-- Campo Nome Social -->
+              <div>
+                <label for="nomeSocialInput" class="block text-gray-700 font-medium mb-2">Nome Social</label>
+                <input
+                  type="text"
+                  id="nomeSocialInput"
+                  placeholder="Seu nome social"
+                  class="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+                />
+              </div>
+              
+              <!-- Campo Documentação para Nome Social (condicional) -->
+              <div id="documentacaoNomeSocialGroup" class="hidden-field">
+                <label for="documentacaoNomeSocialInput" class="block text-gray-700 font-medium mb-2">Documentação para Nome Social (Conforme o Edital)<span class="text-red-500">**</span></label>
+                <input
+                  type="file"
+                  id="documentacaoNomeSocialInput"
+                  class="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+                />
+              </div>
+              
+              <!-- Campo RG -->
+              <div>
+                <label for="rgInput" class="block text-gray-700 font-medium mb-2">RG<span class="text-red-500">*</span></label>
+                <input
+                  type="text"
+                  id="rgInput"
+                  placeholder="00.000.000-0"
+                  required
+                  maxlength="12"
+                  class="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+                />
+              </div>
+              
+              <!-- Campo UF e Órgão Emissor -->
+              <div class="flex space-x-2">
+                <div class="w-1/2">
+                  <label for="ufInput" class="block text-gray-700 font-medium mb-2">UF<span class="text-red-500">*</span></label>
+                  <select
+                    id="ufInput"
+                    required
+                    class="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+                  >
+                    <option value="">Selecione</option>
+                    <option value="AC">AC</option>
+                    <option value="AL">AL</option>
+                    <option value="AP">AP</option>
+                    <option value="AM">AM</option>
+                    <option value="BA">BA</option>
+                    <option value="CE">CE</option>
+                    <option value="DF">DF</option>
+                    <option value="ES">ES</option>
+                    <option value="GO">GO</option>
+                    <option value="MA">MA</option>
+                    <option value="MT">MT</option>
+                    <option value="MS">MS</option>
+                    <option value="MG">MG</option>
+                    <option value="PA">PA</option>
+                    <option value="PB">PB</option>
+                    <option value="PR">PR</option>
+                    <option value="PE">PE</option>
+                    <option value="PI">PI</option>
+                    <option value="RJ">RJ</option>
+                    <option value="RN">RN</option>
+                    <option value="RS">RS</option>
+                    <option value="RO">RO</option>
+                    <option value="RR">RR</option>
+                    <option value="SC">SC</option>
+                    <option value="SP" selected>SP</option>
+                    <option value="SE">SE</option>
+                    <option value="TO">TO</option>
+                  </select>
+                </div>
+                <div class="w-1/2">
+                  <label for="orgaoEmissorInput" class="block text-gray-700 font-medium mb-2">Órgão Emissor<span class="text-red-500">*</span></label>
+                  <select
+                    id="orgaoEmissorInput"
+                    required
+                    class="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+                  >
+                    <option value="">Selecione</option>
+                    <option value="SSP" selected>SSP</option>
+                    <option value="DETRAN">DETRAN</option>
+                    <option value="DIC">DIC</option>
+                    <option value="IFP">IFP</option>
+                    <option value="IML">IML</option>
+                    <option value="CBM">CBM</option>
+                    <option value="PC">PC</option>
+                    <option value="PM">PM</option>
+                    <option value="CREA">CREA</option>
+                    <option value="OAB">OAB</option>
+                  </select>
+                </div>
+              </div>
+              
+              <!-- Campo Celular -->
+              <div>
+                <label for="celularInput" class="block text-gray-700 font-medium mb-2">Celular<span class="text-red-500">*</span></label>
+                <input
+                  type="text"
+                  id="celularInput"
+                  placeholder="(00) 00000-0000"
+                  maxlength="15"
+                  required
+                  class="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+                />
+              </div>
+
+              <!-- Campo E-mail -->
+              <div>
+                <label for="emailInput" class="block text-gray-700 font-medium mb-2">E-mail<span class="text-red-500">*</span></label>
+                <input
+                  type="email"
+                  id="emailInput"
+                  placeholder="seu.email@exemplo.com"
+                  required
+                  class="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+                />
+              </div>
+
+              <!-- Campo Candidato com deficiência -->
+              <div>
+                <label class="block text-gray-700 font-medium mb-2">Candidato com deficiência?<span class="text-red-500">*</span></label>
+                <div class="flex items-center space-x-4">
+                  <div class="flex items-center">
+                    <input type="radio" id="deficienciaSim" name="candidatoDeficiencia" value="sim" required class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
+                    <label for="deficienciaSim" class="ml-2 text-gray-700">Sim</label>
+                  </div>
+                  <div class="flex items-center">
+                    <input type="radio" id="deficienciaNao" name="candidatoDeficiencia" value="nao" required class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
+                    <label for="deficienciaNao" class="ml-2 text-gray-700">Não</label>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Campo Tipo de deficiência (condicional) -->
+              <div id="tipoDeficienciaGroup" class="hidden-field">
+                <label for="tipoDeficienciaInput" class="block text-gray-700 font-medium mb-2">Tipo de deficiência<span class="text-red-500">**</span></label>
+                <input
+                  type="text"
+                  id="tipoDeficienciaInput"
+                  placeholder="Ex: Visual, Auditiva, etc."
+                  class="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+                />
+              </div>
+
+              <!-- Campo Candidato com TEA -->
+              <div>
+                <label class="block text-gray-700 font-medium mb-2">Candidato com TEA?<span class="text-red-500">*</span></label>
+                <div class="flex items-center space-x-4">
+                  <div class="flex items-center">
+                    <input type="radio" id="teaSim" name="candidatoTEA" value="sim" required class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
+                    <label for="teaSim" class="ml-2 text-gray-700">Sim</label>
+                  </div>
+                  <div class="flex items-center">
+                    <input type="radio" id="teaNao" name="candidatoTEA" value="nao" required class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
+                    <label for="teaNao" class="ml-2 text-gray-700">Não</label>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Campo Concluiu Ensino Médio -->
+              <div>
+                <label class="block text-gray-700 font-medium mb-2">Concluiu o Ensino Médio?<span class="text-red-500">*</span></label>
+                <div class="flex items-center space-x-4">
+                  <div class="flex items-center">
+                    <input type="radio" id="ensinoMedioSim" name="ensinoMedio" value="sim" required class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
+                    <label for="ensinoMedioSim" class="ml-2 text-gray-700">Sim</label>
+                  </div>
+                  <div class="flex items-center">
+                    <input type="radio" id="ensinoMedioNao" name="ensinoMedio" value="nao" required class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
+                    <label for="ensinoMedioNao" class="ml-2 text-gray-700">Não</label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Campo Cursando Ensino Médio (condicional) -->
+              <div id="cursandoEnsinoMedioGroup" class="hidden-field">
+                <label class="block text-gray-700 font-medium mb-2">Cursando o Ensino Médio<span class="text-red-500">**</span></label>
+                <div class="flex items-center space-x-4">
+                  <div class="flex items-center">
+                    <input type="radio" id="terceiraSerie" name="cursandoEnsinoMedio" value="3a" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
+                    <label for="terceiraSerie" class="ml-2 text-gray-700">3ª Série</label>
+                  </div>
+                  <div class="flex items-center">
+                    <input type="radio" id="segundaSerie" name="cursandoEnsinoMedio" value="2a" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
+                    <label for="segundaSerie" class="ml-2 text-gray-700">2ª Série</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Seção: Endereço (Mantida como estava) -->
+          <div class="border-b-2 border-gray-200 pb-4">
+            <h2 class="text-xl font-bold text-gray-700 mb-4">Endereço</h2>
+            <div class="space-y-4">
+              <!-- Campos de CEP, Endereço, etc. -->
+              <div class="flex space-x-2">
+                <div class="w-1/2">
+                  <label for="cepInput" class="block text-gray-700 font-medium mb-2">CEP<span class="text-red-500">*</span></label>
+                  <input
+                    type="text"
+                    id="cepInput"
+                    placeholder="00000-000"
+                    maxlength="9"
+                    required
+                    class="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+                  />
+                </div>
+                <div class="w-1/2">
+                  <label for="estadoInput" class="block text-gray-700 font-medium mb-2">Estado</label>
+                  <input
+                    type="text"
+                    id="estadoInput"
+                    placeholder="UF"
+                    class="w-full px-4 py-3 rounded-lg border-2 border-gray-300 bg-gray-200 focus:outline-none"
+                    readonly
+                  />
+                </div>
+              </div>
+              <div>
+                <label for="enderecoInput" class="block text-gray-700 font-medium mb-2">Endereço</label>
+                <input
+                  type="text"
+                  id="enderecoInput"
+                  placeholder="Rua, Avenida..."
+                  class="w-full px-4 py-3 rounded-lg border-2 border-gray-300 bg-gray-200 focus:outline-none"
+                  readonly
+                />
+              </div>
+              <div>
+                <label for="bairroInput" class="block text-gray-700 font-medium mb-2">Bairro</label>
+                <input
+                  type="text"
+                  id="bairroInput"
+                  placeholder="Bairro"
+                  class="w-full px-4 py-3 rounded-lg border-2 border-gray-300 bg-gray-200 focus:outline-none"
+                  readonly
+                />
+              </div>
+              <div>
+                <label for="cidadeInput" class="block text-gray-700 font-medium mb-2">Cidade</label>
+                <input
+                  type="text"
+                  id="cidadeInput"
+                  placeholder="Cidade"
+                  class="w-full px-4 py-3 rounded-lg border-2 border-gray-300 bg-gray-200 focus:outline-none"
+                  readonly
+                />
+              </div>
+              <div class="flex space-x-2">
+                <div class="w-1/3">
+                  <label for="numeroInput" class="block text-gray-700 font-medium mb-2">Número<span class="text-red-500">*</span></label>
+                  <input
+                    type="text"
+                    id="numeroInput"
+                    placeholder="000"
+                    required
+                    class="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+                  />
+                </div>
+                <div class="w-2/3">
+                  <label for="complementoInput" class="block text-gray-700 font-medium mb-2">Complemento</label>
+                  <input
+                    type="text"
+                    id="complementoInput"
+                    placeholder="Apto, Bloco..."
+                    class="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <button
+            type="submit"
+            id="submitButton"
+            class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 transition duration-200 shadow-md"
+          >
+            Enviar
+          </button>
+        </div>
+
+        <div id="message" class="mt-4 text-center text-sm font-medium hidden"></div>
+      </form>
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        // Campos da primeira seção
+        const sectionCpf = document.getElementById('section-cpf');
+        const cpfInput = document.getElementById('cpfInput');
+        const dataNascimentoInput = document.getElementById('dataNascimentoInput');
+        const nextButton = document.getElementById('nextButton');
+        
+        // Seções do formulário principal
+        const sectionsPrincipal = document.getElementById('sections-principal');
+        const contactForm = document.getElementById('contactForm');
+        
+        // Campos da segunda seção
+        const nomeInput = document.getElementById('nomeInput');
+        const nomeSocialInput = document.getElementById('nomeSocialInput');
+        const documentacaoNomeSocialGroup = document.getElementById('documentacaoNomeSocialGroup');
+        const documentacaoNomeSocialInput = document.getElementById('documentacaoNomeSocialInput');
+        const rgInput = document.getElementById('rgInput');
+        const ufInput = document.getElementById('ufInput');
+        const orgaoEmissorInput = document.getElementById('orgaoEmissorInput');
+        const celularInput = document.getElementById('celularInput');
+        const emailInput = document.getElementById('emailInput');
+        const deficienciaRadios = document.querySelectorAll('input[name="candidatoDeficiencia"]');
+        const tipoDeficienciaGroup = document.getElementById('tipoDeficienciaGroup');
+        const tipoDeficienciaInput = document.getElementById('tipoDeficienciaInput');
+        const teaRadios = document.querySelectorAll('input[name="candidatoTEA"]');
+        const ensinoMedioRadios = document.querySelectorAll('input[name="ensinoMedio"]');
+        const cursandoEnsinoMedioGroup = document.getElementById('cursandoEnsinoMedioGroup');
+        const cursandoEnsinoMedioRadios = document.querySelectorAll('input[name="cursandoEnsinoMedio"]');
+        const cepInput = document.getElementById('cepInput');
+        const enderecoInput = document.getElementById('enderecoInput');
+        const bairroInput = document.getElementById('bairroInput');
+        const cidadeInput = document.getElementById('cidadeInput');
+        const estadoInput = document.getElementById('estadoInput');
+        const numeroInput = document.getElementById('numeroInput');
+        const complementoInput = document.getElementById('complementoInput');
+        const messageBox = document.getElementById('message');
+        const submitButton = document.getElementById('submitButton');
+
+        // Event listeners para mostrar/ocultar campos condicionais
+        nomeSocialInput.addEventListener('input', () => {
+            if (nomeSocialInput.value.trim() !== '') {
+                documentacaoNomeSocialGroup.classList.remove('hidden-field');
+                documentacaoNomeSocialInput.setAttribute('required', 'required');
+            } else {
+                documentacaoNomeSocialGroup.classList.add('hidden-field');
+                documentacaoNomeSocialInput.removeAttribute('required');
+            }
+        });
+
+        deficienciaRadios.forEach(radio => {
+            radio.addEventListener('change', () => {
+                if (document.getElementById('deficienciaSim').checked) {
+                    tipoDeficienciaGroup.classList.remove('hidden-field');
+                    tipoDeficienciaInput.setAttribute('required', 'required');
+                } else {
+                    tipoDeficienciaGroup.classList.add('hidden-field');
+                    tipoDeficienciaInput.removeAttribute('required');
+                }
+            });
+        });
+
+        ensinoMedioRadios.forEach(radio => {
+            radio.addEventListener('change', () => {
+                if (document.getElementById('ensinoMedioNao').checked) {
+                    cursandoEnsinoMedioGroup.classList.remove('hidden-field');
+                    cursandoEnsinoMedioRadios.forEach(r => r.setAttribute('required', 'required'));
+                } else {
+                    cursandoEnsinoMedioGroup.classList.add('hidden-field');
+                    cursandoEnsinoMedioRadios.forEach(r => r.removeAttribute('required'));
+                }
+            });
+        });
+
+        // Event listeners para máscaras de entrada
+        function maskCPF(value) {
+            value = value.replace(/\D/g, "");
+            value = value.replace(/(\d{3})(\d)/, "$1.$2");
+            value = value.replace(/(\d{3})(\d)/, "$1.$2");
+            value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+            return value;
+        }
+
+        function maskRG(value) {
+            value = value.replace(/\D/g, "");
+            value = value.replace(/(\d{2})(\d)/, "$1.$2");
+            value = value.replace(/(\d{3})(\d)/, "$1.$2");
+            value = value.replace(/(\d{3})(\d{1})$/, "$1-$2");
+            return value;
+        }
+
+        function maskCelular(value) {
+            value = value.replace(/\D/g, "");
+            value = value.replace(/^(\d{2})(\d)/g, "($1) $2");
+            value = value.replace(/(\d)(\d{4})$/, "$1-$2");
+            return value;
+        }
+
+        function maskCEP(value) {
+            value = value.replace(/\D/g, "");
+            value = value.replace(/^(\d{5})(\d)/, "$1-$2");
+            return value;
+        }
+
+        // Aplica as máscaras em tempo real
+        cpfInput.addEventListener('input', (event) => {
+          event.target.value = maskCPF(event.target.value);
+        });
+        rgInput.addEventListener('input', (event) => {
+          event.target.value = maskRG(event.target.value);
+        });
+        celularInput.addEventListener('input', (event) => {
+          event.target.value = maskCelular(event.target.value);
+        });
+        cepInput.addEventListener('input', (event) => {
+          event.target.value = maskCEP(event.target.value);
+        });
+
+        // Event listener para buscar o endereço pelo CEP
+        cepInput.addEventListener('blur', (event) => {
+          const cep = event.target.value.replace(/\D/g, "");
+          if (cep.length === 8) {
+            showMessage("Buscando endereço...", "text-gray-500");
+            google.script.run
+              .withSuccessHandler(onCEPAddressSuccess)
+              .withFailureHandler(onError)
+              .getAddressByCEP(cep);
+          }
+        });
+
+        function onCEPAddressSuccess(data) {
+          if (data.erro) {
+            showMessage(data.erro, "text-red-500");
+            clearAddressFields();
+          } else {
+            enderecoInput.value = data.endereco;
+            bairroInput.value = data.bairro;
+            cidadeInput.value = data.localidade;
+            estadoInput.value = data.estado;
+            showMessage("Endereço encontrado!", "text-green-500");
+            numeroInput.focus();
+          }
+        }
+
+        function clearAddressFields() {
+          enderecoInput.value = '';
+          bairroInput.value = '';
+          cidadeInput.value = '';
+          estadoInput.value = '';
+        }
+
+        // --- Lógica da primeira seção (Verificação de CPF) ---
+        nextButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            
+            if (cpfInput.checkValidity() && dataNascimentoInput.checkValidity()) {
+                const cpf = cpfInput.value.replace(/\D/g, "");
+                
+                if (cpf.length !== 11) {
+                    showMessage("Por favor, insira um CPF válido com 11 dígitos.", "text-red-500");
+                    return;
+                }
+                
+                nextButton.disabled = true;
+                nextButton.classList.add('opacity-50', 'cursor-not-allowed');
+                showMessage("Verificando CPF...", "text-gray-500");
+
+                google.script.run
+                    .withSuccessHandler(onCpfCheckSuccess)
+                    .withFailureHandler(onError)
+                    .checkCpfInSheet(cpf);
+            } else {
+                showMessage("Por favor, preencha o CPF e a Data de Nascimento.", "text-red-500");
+            }
+        });
+
+        function onCpfCheckSuccess(isCpfRegistered) {
+            if (isCpfRegistered) {
+                showMessage("Inscrição já realizada para este CPF.", "text-red-500");
+                resetButton();
+            } else {
+                showMessage("CPF verificado com sucesso! Preencha os dados restantes.", "text-green-500");
+                sectionCpf.classList.add('hidden-field');
+                sectionsPrincipal.classList.remove('hidden-field');
+                resetButton();
+            }
+        }
+
+        // Event listener para o envio final do formulário
+        contactForm.addEventListener('submit', (event) => {
+          event.preventDefault();
+
+          if (!contactForm.checkValidity()) {
+              showMessage("Por favor, preencha todos os campos obrigatórios.", "text-red-500");
+              return;
+          }
+
+          const formData = {
+            cpf: cpfInput.value.replace(/\D/g, ""),
+            dataNascimento: dataNascimentoInput.value,
+            nome: nomeInput.value,
+            nomeSocial: nomeSocialInput.value,
+            documentacaoNomeSocial: documentacaoNomeSocialInput.files.length > 0 ? documentacaoNomeSocialInput.files[0].name : '',
+            rg: rgInput.value.replace(/\D/g, ""),
+            ufRg: ufInput.value,
+            orgaoEmissor: orgaoEmissorInput.value,
+            celular: celularInput.value.replace(/\D/g, ""),
+            email: emailInput.value,
+            candidatoDeficiencia: document.querySelector('input[name="candidatoDeficiencia"]:checked')?.value || '',
+            tipoDeficiencia: tipoDeficienciaInput.value,
+            candidatoTEA: document.querySelector('input[name="candidatoTEA"]:checked')?.value || '',
+            concluiuEnsinoMedio: document.querySelector('input[name="ensinoMedio"]:checked')?.value || '',
+            cursandoEnsinoMedio: document.querySelector('input[name="cursandoEnsinoMedio"]:checked')?.value || '',
+            cep: cepInput.value.replace(/\D/g, ""),
+            endereco: enderecoInput.value,
+            bairro: bairroInput.value,
+            cidade: cidadeInput.value,
+            estado: estadoInput.value,
+            numero: numeroInput.value,
+            complemento: complementoInput.value
+          };
+          
+          if (formData.cpf.length !== 11) {
+            showMessage("Por favor, insira um CPF válido com 11 dígitos.", "text-red-500");
+            return;
+          }
+
+          if (formData.rg.length < 9) { // Verifica o tamanho mínimo do RG sem a máscara.
+            showMessage("Por favor, insira um RG válido.", "text-red-500");
+            return;
+          }
+          
+          if (formData.celular.length < 10) {
+            showMessage("Por favor, insira um Celular válido.", "text-red-500");
+            return;
+          }
+
+          if (formData.cep.length !== 8) {
+            showMessage("Por favor, insira um CEP válido com 8 dígitos.", "text-red-500");
+            return;
+          }
+
+          submitButton.disabled = true;
+          submitButton.classList.add('opacity-50', 'cursor-not-allowed');
+          showMessage("Enviando...", "text-gray-500");
+          
+          google.script.run
+            .withSuccessHandler(onSuccess)
+            .withFailureHandler(onError)
+            .processForm(formData);
+        });
+
+        function onSuccess(response) {
+          showMessage(response, "text-green-500");
+          contactForm.reset();
+          clearAddressFields();
+          resetButton();
+          // Oculta os campos condicionais novamente
+          documentacaoNomeSocialGroup.classList.add('hidden-field');
+          tipoDeficienciaGroup.classList.add('hidden-field');
+          cursandoEnsinoMedioGroup.classList.add('hidden-field');
+          // Volta para a primeira seção do formulário
+          sectionsPrincipal.classList.add('hidden-field');
+          sectionCpf.classList.remove('hidden-field');
+        }
+
+        function onError(error) {
+          showMessage("Ocorreu um erro: " + error.message, "text-red-500");
+          resetButton();
+        }
+
+        function showMessage(text, colorClass) {
+          messageBox.textContent = text;
+          messageBox.className = 'mt-4 text-center text-sm font-medium';
+          messageBox.classList.add(colorClass);
+          messageBox.classList.remove('hidden');
+        }
+
+        function resetButton() {
+          nextButton.disabled = false;
+          nextButton.classList.remove('opacity-50', 'cursor-not-allowed');
+          submitButton.disabled = false;
+          submitButton.classList.remove('opacity-50', 'cursor-not-allowed');
+        }
+      });
+    </script>
+  </body>
+</html>
