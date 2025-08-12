@@ -9,7 +9,7 @@ function doGet() {
   
   return htmlTemplate.evaluate()
     .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL)
-    .setTitle("Formulário Completo");
+    .setTitle("Inscrições - Vagas Remanescentes 2025-2"); // Título da página atualizado
 }
 
 /**
