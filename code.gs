@@ -80,15 +80,61 @@ function getAddressByCEP(cep) {
 }
 
 /**
- * Função do lado do servidor para processar todos os dados do formulário.
+ * Função do lado do servidor para processar e salvar todos os dados do formulário na planilha.
  *
  * @param {object} formData - Objeto com todos os dados do formulário.
  * @returns {string} Uma mensagem de sucesso.
+ * @throws {Error} Lança um erro se a planilha não for encontrada ou se houver falha ao salvar.
  */
 function processForm(formData) {
-  // AQUI VOCÊ PODE ADICIONAR O SEU CÓDIGO PARA SALVAR OS DADOS.
-  Logger.log("Dados do formulário recebidos:");
-  Logger.log(JSON.stringify(formData, null, 2));
+  try {
+    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Inscricoes");
+    if (!sheet) {
+      // Se a planilha não existir, lança um erro que será enviado ao front-end.
+      throw new Error("A planilha 'Inscricoes' não foi encontrada. Verifique o nome da planilha.");
+    }
 
-  return "Dados enviados com sucesso!";
+    // A ordem dos dados aqui DEVE corresponder exatamente à ordem das colunas na sua planilha
+    const newRow = [
+      formData.cpf,
+      formData.dataNascimento,
+      formData.nome,
+      formData.nomeSocial,
+      formData.documentacaoNomeSocial, // Salva o nome do arquivo, não o arquivo em si
+      formData.rg,
+      formData.ufRg,
+      formData.orgaoEmissor,
+      formData.celular,
+      formData.email,
+      formData.candidatoDeficiencia,
+      formData.tipoDeficiencia,
+      formData.candidatoTEA,
+      formData.concluiuEnsinoMedio,
+      formData.cursandoEnsinoMedio,
+      formData.cep,
+      formData.endereco,
+      formData.bairro,
+      formData.cidade,
+      formData.estado,
+      formData.numero,
+      formData.complemento,
+      formData.primeiraOpcaoCurso,
+      formData.segundaOpcaoCurso,
+      formData.aceiteEdital,
+      formData.aceiteCronograma,
+      formData.autorizacaoLgpd,
+      formData.autorizacaoComunicacao,
+      new Date() // Adiciona a data e hora exatas da inscrição na última coluna
+    ];
+
+    // Adiciona a nova linha de dados ao final da planilha
+    sheet.appendRow(newRow);
+
+    return "Inscrição realizada com sucesso!";
+
+  } catch (e) {
+    Logger.log("Erro ao processar o formulário: " + e.message);
+    // Retorna uma mensagem de erro detalhada para o front-end
+    throw new Error("Ocorreu um erro ao salvar sua inscrição. Tente novamente. Detalhe: " + e.message);
+  }
 }
