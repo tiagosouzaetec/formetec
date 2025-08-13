@@ -32,8 +32,8 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: #004854;
-        opacity: 0.95; /* Ajuste a opacidade conforme necessário */
+        background-color: #005C6D;
+        opacity: 0.98; /* Ajuste a opacidade conforme necessário */
         z-index: -1;
       }
       .hidden-field {
@@ -47,11 +47,11 @@
       <div class="flex flex-col sm:flex-row items-center justify-center text-center sm:text-left gap-4 mb-8">
         <img 
           src="https://bkpsitecpsnew.blob.core.windows.net/uploadsitecps/sites/226/2025/08/logo-512.jpg" 
-          alt="Etec de Guaianazes" 
+          alt="Logotipo da Empresa" 
           class="h-20 w-20 rounded-lg object-cover"
           onerror="this.onerror=null; this.src='https://placehold.co/80x80/B20000/FFFFFF?text=Logo';"
         >
-        <h1 class="text-2xl font-bold text-[#005C6D]">INSCRIÇÃO - Vagas Remanescentes de 1° Módulo</h1>
+        <h1 class="text-2xl font-bold text-[#005C6D]">Inscrição - Vagas Remanescentes de 1° Módulo</h1>
       </div>
 
       <form id="contactForm" class="space-y-8">
@@ -404,12 +404,15 @@
               showMessage("Por favor, preencha todos os campos obrigatórios (*).", "text-[#B20000]");
               return;
           }
+          
+          setButtonLoading(submitButton, true);
+          showMessage("Enviando sua inscrição...", "text-gray-500");
+
           const formData = {
             cpf: cpfInput.value.replace(/\D/g, ""),
             dataNascimento: dataNascimentoInput.value,
             nome: nomeInput.value,
             nomeSocial: nomeSocialInput.value,
-            documentacaoNomeSocial: documentacaoNomeSocialInput.files.length > 0 ? documentacaoNomeSocialInput.files[0].name : '',
             rg: rgInput.value.toUpperCase().replace(/[^0-9X]/g, ""),
             ufRg: ufInput.value,
             orgaoEmissor: orgaoEmissorInput.value,
@@ -434,11 +437,37 @@
             autorizacaoLgpd: autorizacaoLgpd.checked,
             autorizacaoComunicacao: autorizacaoComunicacao.checked
           };
-          
-          setButtonLoading(submitButton, true);
-          showMessage("Enviando sua inscrição...", "text-gray-500");
-          google.script.run.withSuccessHandler(onSuccess).withFailureHandler(onError).processForm(formData);
+
+          const file = documentacaoNomeSocialInput.files[0];
+
+          if (file) {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+              const fileData = reader.result;
+              const base64Data = fileData.split(',')[1];
+              formData.documentacaoNomeSocial = {
+                fileName: file.name,
+                mimeType: file.type,
+                base64Data: base64Data
+              };
+              sendDataToGoogle(formData);
+            };
+            reader.onerror = (error) => {
+              onError({ message: 'Erro ao ler o arquivo: ' + error });
+            };
+          } else {
+            formData.documentacaoNomeSocial = { fileName: '', mimeType: '', base64Data: '' };
+            sendDataToGoogle(formData);
+          }
         });
+
+        function sendDataToGoogle(data) {
+          google.script.run
+            .withSuccessHandler(onSuccess)
+            .withFailureHandler(onError)
+            .processForm(data);
+        }
 
         function onSuccess(response) {
           showMessage(response, "text-green-600");
