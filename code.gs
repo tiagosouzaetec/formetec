@@ -1,3 +1,6 @@
+// ATENÇÃO: Substitua "ID_DA_SUA_PASTA_AQUI" pelo ID da sua pasta do Google Drive.
+const DOCS_FOLDER_ID = "1iFQ09iqCxFc3bvSaFARp6dXRW1cxNKi_";
+
 /**
  * A função doGet() é o ponto de entrada para o aplicativo da web.
  * Ela carrega e serve o arquivo HTML que contém a interface do usuário.
@@ -10,6 +13,32 @@ function doGet() {
   return htmlTemplate.evaluate()
     .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL)
     .setTitle("Inscrições - Vagas Remanescentes 2025-2");
+}
+
+/**
+ * Salva um arquivo no Google Drive e retorna sua URL.
+ * @param {object} fileData - Objeto contendo os dados do arquivo {base64Data, mimeType, fileName}.
+ * @returns {string} A URL do arquivo salvo no Drive.
+ */
+function saveFileToDrive(fileData) {
+  try {
+    const folder = DriveApp.getFolderById(DOCS_FOLDER_ID);
+    
+    // Decodifica o arquivo Base64
+    const decoded = Utilities.base64Decode(fileData.base64Data, Utilities.Charset.UTF_8);
+    const blob = Utilities.newBlob(decoded, fileData.mimeType, fileData.fileName);
+
+    // Cria um nome único para o arquivo para evitar conflitos
+    const uniqueFileName = `${new Date().getTime()}_${fileData.fileName}`;
+    const file = folder.createFile(blob.setName(uniqueFileName));
+    
+    // Retorna a URL do arquivo para ser salva na planilha
+    return file.getUrl();
+
+  } catch (e) {
+    Logger.log("Erro ao salvar arquivo no Drive: " + e.message);
+    throw new Error("Não foi possível salvar o arquivo no Drive. Verifique se o ID da pasta está correto e se ela está compartilhada como 'Editor'.");
+  }
 }
 
 /**
@@ -101,12 +130,19 @@ function getAddressByCEP(cep) {
 /**
  * Função do lado do servidor para processar e salvar todos os dados do formulário na planilha.
  *
- * @param {object} formData - Objeto com todos os dados do formulário.
+ * @param {object} formData - Objeto com todos os dados do formulário, incluindo o arquivo.
  * @returns {string} Uma mensagem de sucesso.
  * @throws {Error} Lança um erro se a planilha não for encontrada ou se houver falha ao salvar.
  */
 function processForm(formData) {
   try {
+    let fileUrl = ''; // Inicia a URL do arquivo como vazia
+
+    // Verifica se há um arquivo para salvar
+    if (formData.documentacaoNomeSocial && formData.documentacaoNomeSocial.fileName) {
+      fileUrl = saveFileToDrive(formData.documentacaoNomeSocial);
+    }
+
     const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Inscricoes");
     if (!sheet) {
       throw new Error("A planilha 'Inscricoes' não foi encontrada. Verifique o nome da planilha.");
@@ -117,7 +153,7 @@ function processForm(formData) {
       formData.dataNascimento,
       formData.nome,
       formData.nomeSocial,
-      formData.documentacaoNomeSocial,
+      fileUrl, // Salva a URL do arquivo do Drive na planilha
       formData.rg,
       formData.ufRg,
       formData.orgaoEmissor,
@@ -150,6 +186,6 @@ function processForm(formData) {
 
   } catch (e) {
     Logger.log("Erro ao processar o formulário: " + e.message);
-    throw new Error("Ocorreu um erro ao salvar sua inscrição. Tente novamente. Detalhe: " + e.message);
+    throw new Error("Ocorreu um erro ao salvar sua inscrição. Detalhe: " + e.message);
   }
 }
